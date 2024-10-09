@@ -1,0 +1,15 @@
+// backend/role-assigner.jsw
+import { authorization } from 'wix-members-backend';
+
+export async function assignRoleToMember(memberId, roleId) {
+    try {
+        const options = { suppressAuth: false };
+        await authorization.assignRole(roleId, memberId, options);
+        return { success: true };
+    } catch (error) {
+        console.error('Error assigning role:', error);
+        return { success: false, error: error.message };
+    }
+}
+
+

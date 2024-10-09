@@ -1,0 +1,62 @@
+import wixData from 'wix-data';
+import * as constants from 'public/constants'
+
+export async function multiply(){
+   return await wixData.query('Product')
+        .eq('productStatus', 'Live')
+        .distinct('subCategoryTags');
+    
+}
+
+export async function multiply2(){
+   return await wixData.query('Product')
+        .find()
+    
+}
+
+let options = {
+//   order: "asc",
+  consistentRead: true,
+  suppressAuth: true
+};
+
+
+export async function filterSubCategoryBasedOnCategoryReference(){
+    return wixData.queryReferenced('Categories', "1ae9b996-2c42-4337-91b1-238a2ce9ecee", 'Sub-Categories_category', options)
+    .then((res) => {
+        return res
+    })
+    .catch((err) => {
+        return err
+    })
+}
+
+export async function filterSubCategoryBa(){
+    return wixData.query(constants.PRODUCT_DATABASE)
+    .include('category')
+    .eq('productStatus', true)
+    .distinct('category')
+    // .find()
+    .then((res) => {
+        return res
+    })
+    .catch((err) => {
+        return err
+    })
+}
+
+export async function getCategories(collection = 'HealthGoals'){
+    let dataQuery = wixData.query(collection)
+    .eq('_id', '17c0f618-bc7c-4605-9c3f-0fa0e0a9265e')
+    .include('categories')
+    // .include('HealthGoals_categories')
+
+    return dataQuery
+    .find()
+    .then((res) => {
+        return res
+    })
+    .catch((err) => {
+        return err
+    })
+}
